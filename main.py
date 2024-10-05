@@ -1,21 +1,26 @@
 import pygame
 from constants import *
+from player import *
 
 def main():
     pygame.init()
+    clock = pygame.time.Clock()
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     print("Starting asteroids!")
     print(f"Screen width: {SCREEN_WIDTH}")
     print(f"Screen height: {SCREEN_HEIGHT}")
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    running = True  # Main loop flag
+    running = True
     while running:
-        for event in pygame.event.get():  # Event loop to handle window events
-            if event.type == pygame.QUIT:  # If the user clicks the close button
-                running = False  # Exit the loop to close the window
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
 
-        screen.fill("black")  # Fill the screen with black
-        pygame.display.flip()  # Update the screen display
-    
+        screen.fill("black")
+        player.drawing(screen)
+        dt = clock.tick(60) / 1000
+        pygame.display.flip()
+
     pygame.quit()
 
 if __name__ == "__main__":
