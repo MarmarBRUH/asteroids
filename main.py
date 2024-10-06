@@ -1,8 +1,15 @@
 import pygame
 from constants import *
 from player import *
+import subprocess
+from time import sleep
 
+def start_xming():
+    xming_command = r'powershell.exe Start-Process "Q:\Apps\Xming\Xming.exe" -ArgumentList "-ac"'
+    subprocess.Popen(xming_command.split(), shell=False)
 def main():
+    start_xming()
+    sleep(1.5)
     pygame.init()
     clock = pygame.time.Clock()
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
