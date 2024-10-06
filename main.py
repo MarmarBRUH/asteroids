@@ -5,6 +5,7 @@ import subprocess
 from time import sleep
 from asteroid import *
 from asteroidfield import *
+from shot import*
 
 def start_xming():
     xming_command = r'powershell.exe Start-Process "Q:\Apps\Xming\Xming.exe" -ArgumentList "-ac"'
@@ -17,41 +18,50 @@ def main():
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
-    shots_group = pygame.sprite.Group()
+    shots = pygame.sprite.Group()
+
     Player.containers = (updatable, drawable)
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = (updatable)
-    Shot.containers = (updatable,drawable, shots_group)
+    Shot.containers = (updatable,drawable, shots)
+
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     asteroidfield = AsteroidField()
+
     print("Starting asteroids!")
     print(f"Screen width: {SCREEN_WIDTH}")
     print(f"Screen height: {SCREEN_HEIGHT}")
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    dt = 0
+
     running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
-        screen.fill("black")
-        dt = clock.tick(60) / 1000
-        for group in updatable:
-            group.update(dt)
+                return
+
+        for obj in updatable:
+            obj.update(dt)
+
         for asteroid in asteroids:
-            if player.collision(asteroid):
-                print(" =============== Game over ===============")
+            if asteroid.collides_with(player):
+                print("Game over!")
                 running = False
-            for shot in shots_group:
-                if asteroid.collision(shot):
- #                  print(f"Number of asteroids: {len(asteroids)}, Number of shots: {len(shots_group)}")
- #                  print("Asteroid collision detected.")
-                    asteroid.kill()
+
+            for shot in shots:
+                if asteroid.collides_with(shot):
                     shot.kill()
- #                  print(f"Number of asteroids: {len(asteroids)}, Number of shots: {len(shots_group)}")
-                    break
-        for group in drawable:
-            group.draw(screen)
+                    asteroid.split()
+
+        screen.fill("black")
+
+        for obj in drawable:
+            obj.draw(screen)
+
         pygame.display.flip()
+
+        # limit the framerate to 60 FPS
+        dt = clock.tick(60) / 1000
 
     pygame.quit()
 
