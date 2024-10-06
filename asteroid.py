@@ -10,3 +10,7 @@ class Asteroid(CircleShape):
         
     def update(self, dt):
         self.position += self.velocity * dt
+    
+    def collision(self, other_obj):
+        distance = pygame.math.Vector2.distance_to(self.position, other_obj.position)
+        return distance <= self.radius + other_obj.radius
