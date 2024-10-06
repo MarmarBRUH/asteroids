@@ -3,6 +3,8 @@ from constants import *
 from player import *
 import subprocess
 from time import sleep
+from asteroid import *
+from asteroidfield import *
 
 def start_xming():
     xming_command = r'powershell.exe Start-Process "Q:\Apps\Xming\Xming.exe" -ArgumentList "-ac"'
@@ -12,7 +14,14 @@ def main():
     sleep(1.5)
     pygame.init()
     clock = pygame.time.Clock()
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
+    Player.containers = (updatable, drawable)
+    Asteroid.containers = (asteroids, updatable, drawable)
+    AsteroidField.containers = (updatable)
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+    asteroidfield = AsteroidField()
     print("Starting asteroids!")
     print(f"Screen width: {SCREEN_WIDTH}")
     print(f"Screen height: {SCREEN_HEIGHT}")
@@ -22,11 +31,12 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-
         screen.fill("black")
-        player.drawing(screen)
         dt = clock.tick(60) / 1000
-        player.update(dt)
+        for group in updatable:
+            group.update(dt)
+        for group in drawable:
+            group.draw(screen)
         pygame.display.flip()
 
     pygame.quit()
