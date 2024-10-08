@@ -35,6 +35,7 @@ def main():
     dt = 0
 
     running = True
+    pygame.event.pump()
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
