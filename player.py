@@ -16,6 +16,7 @@ class Player(CircleShape):
         self.powerup_count = 0
         self.shield = PLAYER_SHIELD
         self.shot_radius = SHOT_RADIUS
+        self.score = 0
 
     def draw(self, screen):
         pygame.draw.polygon(screen, "white", self.triangle(), 2)
@@ -42,8 +43,8 @@ class Player(CircleShape):
             self.rotate(dt)
         if keys[pygame.K_SPACE]:
             self.shoot()
-##       if keys[pygame.K_p]:
-##          power_up = PowerUp(self.position.x, self.position.y, POWERUP_RADIUS)
+        if keys[pygame.K_p]:
+         power_up = PowerUp(self.position.x, self.position.y, POWERUP_RADIUS)
     def shoot(self):
         if self.shoot_timer > 0:
             return

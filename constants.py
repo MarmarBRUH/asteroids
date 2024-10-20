@@ -21,3 +21,5 @@ PLAYER_SHIELD = 0
 SHOT_RADIUS = 5
 
 POWERUP_RADIUS = 2
+
+HIGHSCORE = r"highscore.txt"
