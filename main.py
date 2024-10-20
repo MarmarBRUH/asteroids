@@ -49,7 +49,8 @@ def main():
             f"shield: {player.shield}",
             f"shoot speed: {player.shoot_speed}",
             f"move speed: {player.move_speed}",
-            f"shoot cooldown: {player.shoot_cd}",
+            f"shoot cooldown: {round(player.shoot_cd, 2)}",
+            f"shot radius: {player.shot_radius}"
         ]
 
         for i, stat in enumerate(stats):
