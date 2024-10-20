@@ -6,6 +6,7 @@ from time import sleep
 from asteroid import *
 from asteroidfield import *
 from shot import*
+from powerup import PowerUp
 
 def start_xming():
     xming_command = r'powershell.exe Start-Process "Q:\Apps\Xming\Xming.exe" -ArgumentList "-ac"'
@@ -19,11 +20,13 @@ def main():
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
     shots = pygame.sprite.Group()
+    powerups = pygame.sprite.Group()
 
     Player.containers = (updatable, drawable)
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = (updatable)
     Shot.containers = (updatable,drawable, shots)
+    PowerUp.containers = (updatable, drawable, powerups)
 
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     asteroidfield = AsteroidField()
@@ -53,6 +56,10 @@ def main():
                 if asteroid.collides_with(shot):
                     shot.kill()
                     asteroid.split()
+        for power_up in powerups:
+            if power_up.collides_with(player):
+                power_up.apply(player)
+                power_up.kill()
 
         screen.fill("black")
 
