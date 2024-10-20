@@ -48,9 +48,14 @@ def main():
             obj.update(dt)
 
         for asteroid in asteroids:
-            if asteroid.collides_with(player):
+            if asteroid.collides_with(player) and player.shield <= 0:
                 print("Game over!")
                 running = False
+            elif asteroid.collides_with(player) and player.shield > 0:
+                player.shield -= 1
+                player.powerup_count -= 1
+                print("Used a shield!")
+                asteroid.split()
 
             for shot in shots:
                 if asteroid.collides_with(shot):

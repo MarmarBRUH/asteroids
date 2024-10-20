@@ -6,7 +6,7 @@ from circleshape import CircleShape
 class PowerUp(CircleShape):
     def __init__(self, x, y, radius):
         super().__init__(x, y, radius)
-        self.type = random.choice(['shot_speed', 'shot_cd', 'move_speed'])
+        self.type = random.choice(['shot_speed', 'shot_cd', 'move_speed', 'shield'])
     def draw(self, screen):
         pygame.draw.circle(screen, "red", self.position, self.radius, 2)
 
@@ -28,6 +28,14 @@ class PowerUp(CircleShape):
         elif self.type == 'move_speed':
             player.move_speed += 10
             player.powerup_count += 1
+        elif self.type == 'shield':
+            if player.shield < 3:
+                player.shield += 1
+                player.powerup_count += 1
+            else:
+                print("Powerup not applied! Value too high!")
+                self.type = random.choice(['shot_speed', 'move_speed', 'shot_cd'])
+                self.apply(player)
         print("Powerup applied!")
         print(f"Powerup type: {self.type}")
         print(f"Powerup count: {player.powerup_count}")

@@ -13,6 +13,7 @@ class Player(CircleShape):
         self.shoot_speed = PLAYER_SHOOT_SPEED
         self.shoot_cd = PLAYER_SHOOT_COOLDOWN
         self.powerup_count = 0
+        self.shield = PLAYER_SHIELD
 
     def draw(self, screen):
         pygame.draw.polygon(screen, "white", self.triangle(), 2)
