@@ -51,7 +51,7 @@ class AsteroidField(pygame.sprite.Sprite):
             position = edge[1](random.uniform(0, 1))
             kind = random.randint(1, ASTEROID_KINDS)
             self.spawn(ASTEROID_MIN_RADIUS * kind, position, velocity)
-        if random.random() < 0.001:  
+        if random.random() < 0.01:  
             power_up = PowerUp(random.randint(0, SCREEN_WIDTH), random.randint(0, SCREEN_HEIGHT), POWERUP_RADIUS)
             self.power_ups.add(power_up)
     def draw(self, screen):

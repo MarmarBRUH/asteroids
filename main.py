@@ -23,6 +23,7 @@ def main():
     asteroids = pygame.sprite.Group()
     shots = pygame.sprite.Group()
     powerups = pygame.sprite.Group()
+    active_notifs = pygame.sprite.Group()
 
     Player.containers = (updatable, drawable)
     Asteroid.containers = (asteroids, updatable, drawable)
@@ -54,6 +55,7 @@ def main():
         for i, stat in enumerate(stats):
             text_surface = font.render(stat, True, "white")
             screen.blit(text_surface, (10, 10 + 30 * i))
+
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -69,7 +71,7 @@ def main():
             elif asteroid.collides_with(player) and player.shield > 0:
                 player.shield -= 1
                 player.powerup_count -= 1
-                print("Used a shield!")
+                print("debug // used a shield")
                 asteroid.split()
 
             for shot in shots:
@@ -78,13 +80,20 @@ def main():
                     asteroid.split()
         for power_up in powerups:
             if power_up.collides_with(player):
-                power_up.apply(player)
-                power_up.kill()
+                power_up.apply(player, screen, font)
+                active_notifs.add(power_up)
+                powerups.remove(power_up)
+                drawable.remove(power_up)
 
         screen.fill("black")
 
         for obj in drawable:
             obj.draw(screen)
+        
+        for notification in active_notifs:
+            notification.draw_notification(screen, font)
+            if notification.notification_start_time is None:
+                active_notifs.remove(notification)
         draw_stats(screen, player)
 
         pygame.display.flip()
