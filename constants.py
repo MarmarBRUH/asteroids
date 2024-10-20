@@ -22,4 +22,9 @@ SHOT_RADIUS = 5
 
 POWERUP_RADIUS = 2
 
-HIGHSCORE = r"highscore.txt"
+accumulated_dt = 0
+SHIELDS_USED = 0
+KILLS = 0
+TOTAL_SHOTS = 0
+TOTAL_POWERUPS = 0
+TIME_PLAYED = 0

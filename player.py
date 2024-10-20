@@ -17,6 +17,7 @@ class Player(CircleShape):
         self.shield = PLAYER_SHIELD
         self.shot_radius = SHOT_RADIUS
         self.score = 0
+        self.total_shots = 0
 
     def draw(self, screen):
         pygame.draw.polygon(screen, "white", self.triangle(), 2)
@@ -51,6 +52,7 @@ class Player(CircleShape):
         self.shoot_timer = self.shoot_cd
         shot = Shot(self.position.x, self.position.y, self.shot_radius)
         shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * self.shoot_speed
+        self.total_shots += 1
 
     def rotate(self, dt):
         self.rotation += (self.move_speed * 0.80) * dt
