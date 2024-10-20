@@ -23,7 +23,7 @@ class PowerUp(CircleShape):
                 player.powerup_count += 1
             else:
                 print("Powerup not applied! Value too low!")
-                self.type = random.choice(['shot_speed', 'move_speed'])
+                self.type = random.choice(['shot_speed', 'move_speed', 'shield'])
                 self.apply(player)
         elif self.type == 'move_speed':
             player.move_speed += 10

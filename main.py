@@ -15,7 +15,9 @@ def main():
     start_xming()
     sleep(1.5)
     pygame.init()
+
     clock = pygame.time.Clock()
+
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
@@ -30,6 +32,7 @@ def main():
 
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     asteroidfield = AsteroidField()
+    font = pygame.font.SysFont('Comic Sans MS', 30)
 
     print("Starting asteroids!")
     print(f"Screen width: {SCREEN_WIDTH}")
@@ -39,6 +42,18 @@ def main():
 
     running = True
     pygame.event.pump()
+    def draw_stats(screen, player):
+        stats = [
+            f"powerups: {player.powerup_count}",
+            f"shield: {player.shield}",
+            f"shoot speed: {player.shoot_speed}",
+            f"move speed: {player.move_speed}",
+            f"shoot cooldown: {player.shoot_cd}",
+        ]
+
+        for i, stat in enumerate(stats):
+            text_surface = font.render(stat, True, "white")
+            screen.blit(text_surface, (10, 10 + 30 * i))
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -70,6 +85,7 @@ def main():
 
         for obj in drawable:
             obj.draw(screen)
+        draw_stats(screen, player)
 
         pygame.display.flip()
 
